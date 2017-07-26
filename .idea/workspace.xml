@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c24edf28-65de-4fd0-b93b-01b123590a76" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bin/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modles/in_memo/topic.js" afterPath="$PROJECT_DIR$/modles/in_memo/topic.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modles/in_memo/user.js" afterPath="$PROJECT_DIR$/modles/in_memo/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/topic.js" afterPath="$PROJECT_DIR$/routes/topic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -151,6 +149,7 @@
         <option value="$PROJECT_DIR$/modles/in_memo/topic.js" />
         <option value="$PROJECT_DIR$/routes/topic.js" />
         <option value="$PROJECT_DIR$/bin/.gitignore" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -364,12 +363,12 @@
       <workItem from="1500991119065" duration="2834000" />
       <workItem from="1500993995884" duration="76000" />
       <workItem from="1500994105496" duration="834000" />
-      <workItem from="1501034457374" duration="12106000" />
+      <workItem from="1501034457374" duration="12417000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16759000" />
+    <option name="totallyTimeSpent" value="17070000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -469,7 +468,7 @@
         <state relative-caret-position="374">
           <caret line="17" column="31" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
           <folding>
-            <marker date="1501064963146" expanded="true" signature="45827:45842" ph="..." />
+            <marker date="1501065275603" expanded="true" signature="45911:45926" ph="..." />
           </folding>
         </state>
       </provider>
@@ -543,7 +542,7 @@
         <state relative-caret-position="308">
           <caret line="14" column="10" lean-forward="false" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
           <folding>
-            <marker date="1501064963146" expanded="true" signature="45827:45842" ph="..." />
+            <marker date="1501065275603" expanded="true" signature="45911:45926" ph="..." />
           </folding>
         </state>
       </provider>
@@ -625,7 +624,7 @@
         <state relative-caret-position="308">
           <caret line="14" column="10" lean-forward="false" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
           <folding>
-            <marker date="1501064963146" expanded="true" signature="45827:45842" ph="..." />
+            <marker date="1501065275603" expanded="true" signature="45911:45926" ph="..." />
           </folding>
         </state>
       </provider>
@@ -743,7 +742,7 @@
         <state relative-caret-position="418">
           <caret line="20" column="31" lean-forward="false" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
           <folding>
-            <marker date="1501064963146" expanded="true" signature="45827:45842" ph="..." />
+            <marker date="1501065275603" expanded="true" signature="45911:45926" ph="..." />
           </folding>
         </state>
       </provider>
@@ -824,6 +823,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
           <caret line="5" column="9" lean-forward="true" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="36" column="18" lean-forward="false" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
           <folding />
         </state>
       </provider>
