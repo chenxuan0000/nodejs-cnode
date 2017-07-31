@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../modles/in_memo/user');
+const User = require('../modles/mongo/user');
 
 // localhost:9090/user
 router.route('/')
@@ -42,7 +42,7 @@ router.route('/')
 router.route('/:id')
     .get((req, res, next) => {
         (async () => {
-            let user = await User.getUserById(Number(req.params.id));
+            let user = await User.getUserById(req.params.id);
             return {
                 code: 0,
                 user: user
@@ -57,10 +57,10 @@ router.route('/:id')
     })
     .patch((req, res) => {
         (async () => {
-            let user = await User.updateUserById(Number(req.params.id), {
-                name: req.body.name,
-                age: req.body.age
-            });
+            let updata = {};
+            if(req.body.name) updata.name = req.body.name;
+            if(req.body.age) updata.age = req.body.age;
+            let user = await User.updateUserById((req.params.id), updata);
             return {
                 code: 0,
                 user: user
