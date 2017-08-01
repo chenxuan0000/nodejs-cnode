@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../modles/mongo/user');
+const auth = require('../middlewares/auth_user');
 
 // localhost:9090/user
 router.route('/')
@@ -23,7 +24,9 @@ router.route('/')
         (async () => {
             let user = await User.createANewUser({
                 name: req.body.name,
-                age: req.body.age
+                age: req.body.age,
+                password: req.body.password,
+                phoneNumber: req.body.phoneNumber
             });
             return {
                 code: 0,
@@ -55,7 +58,7 @@ router.route('/:id')
                 next(e);
             })
     })
-    .patch((req, res) => {
+    .patch(auth(),(req, res, next) => {
         (async () => {
             let updata = {};
             if(req.body.name) updata.name = req.body.name;

@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const ReplySchema = new Schema({
+    creator: Schema.Types.ObjectId,
+    content: {type: String}
+});
 const TopicSchema = new Schema({
-    title: {type: String, required: true},
+    creator: {type: String, required: true},
+    title: {type: String},
     content: {type: String},
-    replyList: {type: Array}
+    replyList: [ReplySchema]
 });
 
 TopicSchema.index({title: 1}, {unique: true});
