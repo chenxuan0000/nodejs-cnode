@@ -7,7 +7,7 @@ module.exports = function (options) {
         try{
             const auth = req.get('Authorization');
             if(!auth) throw new Error('No auth');
-            let authList = auth.split('');
+            let authList = auth.split(' ');
             const token = authList[1];
             if(!auth || auth.length < 2) {
                 res.statusCode = 401;

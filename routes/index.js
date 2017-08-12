@@ -13,7 +13,7 @@ router.post('/login', function(req, res, next) {
     (async() => {
       const user = await User.login(req.body.phoneNumber,req.body.password);
       //JWT方式来生成token
-      const token = JWT.sign({_id:user._id,iat:Date.now(),expire:Date.now() + 20000},JWT_SECRET);
+      const token = JWT.sign({_id:user._id,iat:Date.now(),expire:Date.now() + 24*60*60*1000},JWT_SECRET);
 
       return {
         code : 0,
