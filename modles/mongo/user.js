@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const bluebird = require('bluebird');
 const pbkdf2Async = bluebird.promisify(crypto.pbkdf2);
 const SALT = require('../../cipher').PASSWORD_SALT;
+const Errors = require('../../error')
 
 const UserSchema = new Schema({
   name: {type: String, required: true},
@@ -31,13 +32,12 @@ async function createANewUser(params) {
       })
   let creator = await user.save()
       .catch(e => {
-        console.log(e)
         switch (e.code) {
           case 11000:
-            throw new Error('this name has created , change another!!!!');
+            throw new Errors.DuplicatedUserNameError(params.name);
             break;
           default:
-            throw new Error(`error creating user ${ JSON.stringify(params) }`);
+            throw new Errors.validationError('user', `error creating user ${ JSON.stringify(params) }`);
             break;
         }
       });
