@@ -4,7 +4,8 @@ const crypto = require('crypto');
 const bluebird = require('bluebird');
 const pbkdf2Async = bluebird.promisify(crypto.pbkdf2);
 const SALT = require('../../cipher').PASSWORD_SALT;
-const Errors = require('../../error')
+const Errors = require('../../error');
+const logger = require('../../util/logger').logger;
 
 const UserSchema = new Schema({
   name: {type: String, required: true},
@@ -32,6 +33,7 @@ async function createANewUser(params) {
       })
   let creator = await user.save()
       .catch(e => {
+        logger.error('error create user', e)
         switch (e.code) {
           case 11000:
             throw new Errors.DuplicatedUserNameError(params.name);
@@ -82,7 +84,7 @@ async function login(phoneNumber, password) {
       .then(r => r.toString())
       .catch(e => {
         console.log(e);
-        throw new Error('something gose wrong inside server');
+        throw new Errors.InternalError('something gose wrong inside server')
       })
   const user = await UserModel.findOne({phoneNumber: phoneNumber, password: password})
       .catch(e => {

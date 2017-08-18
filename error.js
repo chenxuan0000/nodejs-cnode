@@ -12,9 +12,18 @@ class BaseHTTPError extends Error {
   }
 }
 
+class InternalError extends BaseHTTPError {
+  constructor(msg) {
+    const OPCode = 1000001
+    const httpMsg = '服务器好像开小差看,一会再试试？'
+    super(msg,OPCode,500,httpMsg)
+  }
+}
+
+
 class ValidationError extends BaseHTTPError {
   constructor(path, reason) {
-    const OPCode = 1000001
+    const OPCode = 2000000
     const httpCode = 400
     super(`error validating parm, path:${path},reason: ${reason}`,OPCode,httpCode,'参数错误，清检查后再试~')
     this.name = 'ValidationError'
@@ -24,13 +33,15 @@ class ValidationError extends BaseHTTPError {
 
 class DuplicatedUserNameError extends ValidationError {
   constructor(username) {
+    const OPCode = 2000001
     super('username',`duplicate user name: ${username}`)
-    this.httpMsg = '这个昵称已经存在'
+    this.httpMsg = '这个昵称已经存在,换一个吧~~~'
   }
 }
 
 module.exports = {
   BaseHTTPError,
   ValidationError,
-  DuplicatedUserNameError
+  DuplicatedUserNameError,
+  InternalError
 }
