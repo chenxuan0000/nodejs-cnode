@@ -1,0 +1,2 @@
+{"method":"POST","originalUrl":"/user","body":{"name":"qiuzhaoyang111","age":"33","password":"hahahahaha","phoneNumber":"18552065308"},"query":{},"ip":"::1","httpStatusCode":200,"level":"info","message":"request","timestamp":"2017-08-18T06:31:50.505Z"}
+{"method":"POST","originalUrl":"/user","body":{"name":"qiuzhaoyang111","age":"33","password":"hahahahaha","phoneNumber":"18552065308"},"query":{},"ip":"::1","httpStatusCode":200,"level":"info","message":"request","timestamp":"2017-08-18T06:36:11.448Z"}
