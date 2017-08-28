@@ -11,21 +11,23 @@ async function getAccessTokenByCode(code) {
   let tokenObj = getAccessTokenFromCache(code)
   if (!tokenObj) {
     const url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${APP_ID}&secret=${APP_SECRET}&code=${code}&grant_type=authorization_code`
-    tokenObj = axios.get(url)
+    tokenObj = await axios.get(url)
         .then(r => {
           if (!r || !r.data) throw new Errors.WechatAPIError('invalid wechat api reponse')
           return r.data
         })
   }
-  await saveAccessToken(code, tokenObj)
-  await saveAccessToken(code, tokenObj.refresh_token)
+  await saveUserAccessToken(code, tokenObj)
+  if (tokenObj.refresh_token) {
+    await saveRefreshToken(code, tokenObj)
+  }
   return tokenObj
 }
 
-async function saveRefeshToken(code, refeshToken) {
+async function saveRefreshToken(code, tokenObj) {
   if (!code) throw new Errors.ValidationError('code', 'code can not be empty')
-  if (!refeshToken) throw new Errors.ValidationError('refeshToken', 'refeshToken can not be empty')
-  await redis.set(WECHAT_USER_REFRESH_TOKEN_BY_CODE_PRE + code, tokenObj.access_token)
+  if (!tokenObj || !tokenObj.refresh_token) throw new Errors.ValidationError('refeshToken', 'refeshToken can not be empty')
+  await redis.set(WECHAT_USER_REFRESH_TOKEN_BY_CODE_PRE + code, tokenObj.refresh_token)
       .catch(e => {
         throw new Errors.RedisError(`set wechat user refresh token failed: ${e.message}`)
       })
@@ -35,7 +37,7 @@ async function saveRefeshToken(code, refeshToken) {
       })
 }
 
-async function saveAccessToken(code, tokenObj) {
+async function saveUserAccessToken(code, tokenObj) {
   if (!code) throw new Errors.ValidationError('code', 'code can not be empty')
   if (!tokenObj || !tokenObj.access_token) throw new Errors.ValidationError('access_token', 'access_token can not be empty')
   await redis.set(WECHAT_USER_ACCESS_TOKEN_BY_CODE_PRE + code, tokenObj.access_token)
@@ -49,27 +51,32 @@ async function saveAccessToken(code, tokenObj) {
 }
 
 async function getAccessTokenFromCache(code) {
-  let accessToken = await redis.get(WECHAT_USER_ACCESS_TOKEN_BY_CODE_PRE + code, tokenObj.access_token)
+  let accessToken = await redis.get(WECHAT_USER_ACCESS_TOKEN_BY_CODE_PRE + code)
       .catch(e => {
         throw new Errors.RedisError(`set wechat user access token failed: ${e.message}`)
       })
+  let refreshToken = null
   if (!accessToken) {
-    let refreshToken = await redis.get(WECHAT_USER_REFRESH_TOKEN_BY_CODE_PRE + code)
+    refreshToken = await redis.get(WECHAT_USER_REFRESH_TOKEN_BY_CODE_PRE + code)
         .catch(e => {
           throw new Errors.RedisError(`set wechat user refresh token failed: ${e.message}`)
         })
-    if(!refreshToken) return null
-    if(refreshToken) {
+
+    if (!refreshToken) return null
+    if (refreshToken) {
       const tokenObj = await refeshAccessToken(code)
       return tokenObj
     }
   }
-  return {refreshToken,accessToken}
+  return {
+    refresh_token: refreshToken,
+    access_token: accessToken,
+  }
 }
 
 async function refeshAccessToken(refeshToken) {
   const url = `https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=${APP_ID}&grant_type=refresh_token&refresh_token=${refeshToken}`
-  var tokenObj = axios.get(url)
+  var tokenObj = await axios.get(url)
       .then(r => {
         if (!r || !r.data) throw new Errors.WechatAPIError('invalid wechat api reponse')
         return r.data
@@ -77,6 +84,24 @@ async function refeshAccessToken(refeshToken) {
   return tokenObj
 }
 
+async function getUserInfoByAccessToken(openId, accessToken) {
+  const url = `https://api.weixin.qq.com/sns/userinfo?access_token=${accessToken}&openid=${openId}&lang=zh_CN`
+  const user = await
+      axios.get(url)
+          .then(r => {
+            if (!r || !r.data) throw new Errors.WechatAPIError('invalid wechat api response')
+            return r.data
+          })
+  return user
+}
+
+async function getUserInfoByCode(code) {
+  const tokenObj = await getAccessTokenByCode(code)
+  const user = await getUserInfoByAccessToken(tokenObj.openid, tokenObj.access_token);
+  return user;
+}
+
 module.exports = {
-  getAccessTokenByCode
+  getAccessTokenByCode,
+  getUserInfoByCode
 }

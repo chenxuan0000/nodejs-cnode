@@ -12,10 +12,13 @@ const UserSchema = new Schema({
   age: {type: Number, max: [90, 'over 90 will not use postman']},
   phoneNumber: String,
   password: String,
-  avatar: String
+  avatar: String,
+  openId: {type: String, index: true}
 });
 
 UserSchema.index({name: 1}, {unique: true});
+
+UserSchema.index({name: 1, age: 1})
 
 const UserModel = mongoose.model('user', UserSchema);
 //过滤条件 0 表示不显示
@@ -99,11 +102,20 @@ async function login(phoneNumber, password) {
   }
 }
 
+async function loginWithWechat(user) {
+  let found = await UserModel.findOne({openId: user.openid})
+  if (found) return found
+
+  let created = await createANewUser({name: user.nickname, openId: user.openid})
+  return created
+}
+
 module.exports = {
   model: UserModel,
   createANewUser,
   getUsers,
   getUserById,
   updateUserById,
-  login
+  login,
+  loginWithWechat
 }
